@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/den/Documents/Git/android-ingenico/Lesson 2/Code/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/den/Documents/Git/android-ingenico/Lesson 2/Code/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_0119cc7ead119a8d5e04d7040a3fc1c0df20dacf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/den/Documents/Git/android-ingenico/Lesson 2/Code/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="f101f6278a9f98c3dc256f5fbe22a6bc6d68548b">
+        <dex dex="/Users/den/Documents/Git/android-ingenico/Lesson 2/Code/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_334cde27598615f26a7806b62e065720412040a6/classes.dex" />
+    </item>
+
+</items>
