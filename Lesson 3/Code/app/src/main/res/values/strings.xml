@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Lesson3</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="submit">Submit</string>
+    <string name="back">Back</string>
+
+    <string-array name="streets_array">
+        <item>Dzirnavu</item>
+        <item>Terbates</item>
+        <item>Stabu</item>
+        <item>Matisa</item>
+        <item>Marijas</item>
+        <item>Avotu</item>
+        <item>Caka</item>
+        <item>Brivibas</item>
+    </string-array>
+
+</resources>
