@@ -2,18 +2,23 @@ package com.example.den.lesson2;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.den.lesson2.Holders.ViewHolderArticle;
+import com.example.den.lesson2.Holders.ViewHolderGallery;
 import com.example.den.lesson2.Items.ItemArticle;
 import com.example.den.lesson2.Items.ItemBase;
 import com.example.den.lesson2.Items.ItemGallery;
@@ -107,30 +112,11 @@ public class HomeActivity extends AppCompatActivity {
 
                         if(isArticle(itemsArray[position])) {
                             ItemArticle currentArticle =  (ItemArticle)itemsArray[position];
-                            // Inflate only once
-                            if (convertView == null) {
-                                convertView = getLayoutInflater()
-                                        .inflate(R.layout.item_article, null, false);
-                            }
-
-                            if(convertView.getTag() == null) {
-                                ViewHolderArticle viewHolder = new ViewHolderArticle();
-                                viewHolder.textViewTitle = convertView.findViewById(R.id.textViewTitle);
-                                viewHolder.textViewDescription = convertView.findViewById(R.id.textViewDescription);
-                                convertView.setTag(viewHolder);
-                            }
-
-                            TextView textViewTitle =
-                                    ((ViewHolderArticle) convertView.getTag()).textViewTitle;
-                            TextView textViewDescription =
-                                    ((ViewHolderArticle) convertView.getTag()).textViewDescription;
-
-                            textViewTitle.setText(currentArticle.getTitle());
-                            textViewDescription.setText(currentArticle.getDescription());
+                            convertView = setupArticleView(convertView, currentArticle);
 
                         } else if (isGallery(itemsArray[position])) {
                             ItemGallery currentGallery = (ItemGallery) itemsArray[position];
-                            Log.v("","");
+                            convertView = setupGalleryView(convertView, currentGallery);
                         }
                         return convertView;
                     }
@@ -153,11 +139,57 @@ public class HomeActivity extends AppCompatActivity {
                     articleActivity.putExtra(ArticleActivity.DESCRIPTION_EXTRA_KEY, article.getDescription());
                     startActivity(articleActivity);
                 } else if (isGallery(itemsArray[position])) {
-
+                    Intent galleryActivity = new Intent(getApplicationContext(), GalleryActivity.class);
+                    startActivity(galleryActivity);
                 }
             }
         });
 
         listView.setAdapter(itemsArrayAdapter);
+    }
+
+    private View setupArticleView(View convertView, ItemArticle currentArticle) {
+        // Inflate only once
+        if (convertView == null || convertView.getTag().getClass().equals(ViewHolderGallery.class)) {
+            convertView = getLayoutInflater()
+                    .inflate(R.layout.item_article, null, false);
+        }
+
+        if(convertView.getTag() == null) {
+            ViewHolderArticle viewHolder = new ViewHolderArticle();
+            viewHolder.textViewTitle = convertView.findViewById(R.id.textViewTitle);
+            viewHolder.textViewDescription = convertView.findViewById(R.id.textViewDescription);
+            convertView.setTag(viewHolder);
+        }
+
+        TextView textViewTitle =
+                ((ViewHolderArticle) convertView.getTag()).textViewTitle;
+        TextView textViewDescription =
+                ((ViewHolderArticle) convertView.getTag()).textViewDescription;
+
+        textViewTitle.setText(currentArticle.getTitle());
+        textViewDescription.setText(currentArticle.getDescription());
+
+        return convertView;
+    }
+
+    private View setupGalleryView(View convertView, ItemGallery currentGallery) {
+        // Inflate only once
+        if (convertView == null || convertView.getTag().getClass().equals(ViewHolderArticle.class)) {
+            convertView = getLayoutInflater()
+                    .inflate(R.layout.item_gallery, null, false);
+        }
+
+        if(convertView.getTag() == null) {
+            ViewHolderGallery viewHolder = new ViewHolderGallery();
+            viewHolder.imageView = convertView.findViewById(R.id.imageView);
+            convertView.setTag(viewHolder);
+        }
+
+        ImageView imageView =
+                ((ViewHolderGallery) convertView.getTag()).imageView;
+
+        imageView.setImageDrawable(ContextCompat.getDrawable(this, currentGallery.imgResoureID()));
+        return convertView;
     }
 }
