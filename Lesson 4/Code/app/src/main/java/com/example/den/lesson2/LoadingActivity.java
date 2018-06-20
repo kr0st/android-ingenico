@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -37,7 +38,7 @@ public class LoadingActivity extends AppCompatActivity {
         final AlertDialog failedDialog = composeDialogFailer();
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("https://api.lenta.ru/lists/latest", new AsyncHttpResponseHandler() {
+        client.get("https://meduza.io/api/v3/search?chrono=news&locale=ru&page=0&per_page=24", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 DataManager.instance.setItemsArticle(getArticlesFromByte(responseBody));
@@ -59,20 +60,22 @@ public class LoadingActivity extends AppCompatActivity {
         try {
             String strJson = new String(responseBody, "UTF-8");
             JSONObject jObject = new JSONObject(strJson);
-            JSONArray jArray = jObject.getJSONArray("headlines");
-            for (int i=0; i < jArray.length(); i++) {
-                JSONObject rootObject = jArray.getJSONObject(i);
-                if(rootObject.has("info")) {
-                    JSONObject infoObject = rootObject.getJSONObject("info");
-                    if(infoObject != null) {
-                        String title = infoObject.get("title").toString();
-                        String description = infoObject.get("rightcol").toString();
-                        ItemArticle itemArticle = new ItemArticle(title, description);
-                        itemsArray.add(itemArticle);
-                    }
-                }
+            Iterator<String> keys = jObject.getJSONObject("documents").keys();
+            do
+            {
+                String key = keys.next();
+                if (key == null)
+                    continue;
 
-            }
+                JSONObject rootObject = jObject.getJSONObject("documents").getJSONObject(key);
+                if((rootObject != null) && (rootObject.has("title")))
+                {
+                    String title = rootObject.get("title").toString();
+                    String description = rootObject.get("url").toString();
+                    ItemArticle itemArticle = new ItemArticle(title, description);
+                    itemsArray.add(itemArticle);
+                }
+            }while (keys.hasNext());
         } catch (Exception e) {
             e.printStackTrace();
         }
