@@ -1,0 +1,27 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView style="?android:textAppearanceMedium"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The best time to buy gadgets during the summer is usually around July 4th or Amazon Prime Day, but that doesn’t mean there aren’t a few sales worth checking out in the meantime.
+
+Razer is offering special weekend sale on a few of its Razer Blade gaming-focused laptops. While every model is receiving some kind of discount, the best deals are for the Razer Blade Stealth 13 and the Razer Blade Pro 17. They might look similar, but keep in mind that these are two very different models. The Blade Stealth 13 is a capable laptop with tremendous battery life and a high-resolution display, and it’s been marked down $200 this weekend. The Razer Blade Pro 17 is $500 off this weekend. It’s bigger and comes with a couple of other freebies like a Razer Hammerhead Bluetooth headset and Razer Rogue backpack."
+            android:padding="16dp" />
+
+    </ScrollView>
+
+    <ProgressBar android:id="@+id/loading_spinner"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+</FrameLayout>

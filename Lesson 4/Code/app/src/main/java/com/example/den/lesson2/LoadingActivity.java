@@ -41,7 +41,7 @@ public class LoadingActivity extends AppCompatActivity {
         client.get("https://meduza.io/api/v3/search?chrono=news&locale=ru&page=0&per_page=24", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                DataManager.instance.setItemsArticle(getArticlesFromByte(responseBody));
+                DataManager.instance.setItemsArticle(parseMeduzaArticlesFromByte(responseBody));
                 startActivity(homeActivity);
                 closeActivity();
             }
@@ -53,7 +53,7 @@ public class LoadingActivity extends AppCompatActivity {
         });
     }
 
-    private ItemArticle[] getArticlesFromByte(byte[] responseBody) {
+    private ItemArticle[] parseLentaArticlesFromByte(byte[] responseBody) {
 
         ArrayList<ItemArticle> itemsArray = new ArrayList<>();
 
@@ -80,6 +80,32 @@ public class LoadingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+        return itemsArray.toArray(new ItemArticle[itemsArray.size()]);
+    }
+
+    private ItemArticle[] parseMeduzaArticlesFromByte(byte[] responseBody) {
+
+        ArrayList<ItemArticle> itemsArray = new ArrayList<>();
+
+        try {
+            String strJson = new String(responseBody, "UTF-8");
+            JSONObject jObject = new JSONObject(strJson);
+            JSONArray collection = jObject.getJSONArray("collection");
+            JSONObject documents = jObject.getJSONObject("documents");
+            for (int i=0; i < collection.length(); i++) {
+                String collectionObject = collection.get(i).toString();
+
+                JSONObject rootObject = documents.getJSONObject(collectionObject);
+                String title = rootObject.get("title").toString();
+                String description = rootObject.get("url").toString();
+
+                ItemArticle itemArticle = new ItemArticle(title, description);
+                itemsArray.add(itemArticle);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return itemsArray.toArray(new ItemArticle[itemsArray.size()]);
     }

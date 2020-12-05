@@ -1,6 +1,5 @@
 package com.example.den.lesson2;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +8,7 @@ import android.view.KeyEvent;
 
 import com.example.den.lesson2.Data.DataManager;
 import com.example.den.lesson2.Fragments.FragmentArticle;
+import com.example.den.lesson2.Fragments.FragmentGallery;
 import com.example.den.lesson2.Fragments.FragmentHome;
 import com.example.den.lesson2.Items.ItemArticle;
 import com.example.den.lesson2.Items.ItemBase;
@@ -65,6 +65,16 @@ public class HomeActivity extends AppCompatActivity implements FragmentHome.OnHo
         fragmentTransaction.commit();
     }
 
+    private void setupFragmentGallery() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        FragmentGallery fragment = new FragmentGallery();
+        fragmentTransaction.add(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -88,8 +98,7 @@ public class HomeActivity extends AppCompatActivity implements FragmentHome.OnHo
             ItemArticle article = (ItemArticle) itemsArray[position];
             setupFragmentArticle(article);
         } else if (isGallery(itemsArray[position])) {
-            Intent galleryActivity = new Intent(this, GalleryActivity.class);
-            startActivity(galleryActivity);
+            setupFragmentGallery();
         }
     }
 }
